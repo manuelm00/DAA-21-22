@@ -22,8 +22,8 @@ import matplotlib.pyplot as plt
 import sklearn
 
 #Ler ambos os ficheiros CSV
-df = pd.read_csv("training_data.csv")
-df_final = pd.read_csv("test_data.csv")
+df = pd.read_csv("training_data.csv", encoding = 'latin-1')
+df_final = pd.read_csv("test_data.csv", encoding = 'latin-1')
 #Remover colunas sem informação relevante
 df = df.drop(['city_name', 'AVERAGE_PRECIPITATION'], axis=1)
 df_final = df_final.drop(['city_name', 'AVERAGE_PRECIPITATION'], axis=1)
@@ -33,7 +33,7 @@ df_final = df_final.fillna(0)
 #Converter os valores qualitativos para quantitativos
 speed_diff = {'None': 0, 'Low': 1, 'Medium': 2, 'High': 3, 'Very_High': 4}
 luminosity = {'DARK': 0, 'LOW_LIGHT': 1, 'LIGHT': 2}
-cloudiness = {'c�u claro': 0, 'c�u limpo': 0, 'nuvens dispersas': 1, 'c�u pouco nublado': 1, 'algumas nuvens': 1, 'nuvens quebrados': 2, 'nuvens quebradas': 2, 'tempo nublado': 3, 'nublado': 3}
+cloudiness = {'céu claro': 0, 'céu limpo': 0, 'nuvens dispersas': 1, 'céu pouco nublado': 1, 'algumas nuvens': 1, 'nuvens quebrados': 2, 'nuvens quebradas': 2, 'tempo nublado': 3, 'nublado': 3}
 rain = {'chuvisco fraco': 1, 'chuva fraca': 1, 'chuva leve': 1,  'aguaceiros fracos': 1, 'chuvisco e chuva fraca': 1, 'chuva': 2, 'chuva moderada': 2, 'aguaceiros': 2, 'trovoada com chuva leve': 2, 'chuva de intensidade pesada': 3, 'chuva de intensidade pesado': 3, 'chuva forte': 3, 'trovoada com chuva': 3}
   
 df = df.replace({'AVERAGE_SPEED_DIFF': speed_diff, 'LUMINOSITY': luminosity, 'AVERAGE_CLOUDINESS': cloudiness, 'AVERAGE_RAIN': rain})
@@ -78,8 +78,7 @@ result = result.replace({'Speed_Diff': speed_diff})
 print(result)
 result.to_csv("respes.csv", index=False)
 
-'''
+
 corr_matrix = df.corr()
 f, ax = plt.subplots(figsize=(8,6))
 sns.heatmap(corr_matrix,vmin=-1, vmax=1, square=True, annot=True)
-'''

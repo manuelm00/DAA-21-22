@@ -45,6 +45,7 @@ test_preparation = {'none': 0, 'completed': 1}
 
 df = df.replace({'gender': gender, 'race/ethnicity': race, 'parental level of education': parental_education, 'lunch': lunch, 'test preparation course': test_preparation})
 results={}
+results['RowId'] = list(range(1,int(len(df.index)*0.25)+1))
 for label in ["math score","reading score","writing score"]:
     x = df.drop([label],axis=1)
     y = df[label]
@@ -57,7 +58,7 @@ for label in ["math score","reading score","writing score"]:
     print(f"logistic regression x_test error for {label}: {str(mean_absolute_error(y_test,predictions))}")    
     results[label]=predictions
     
-results['RowId'] = list(range(1,len(predictions)+1))
+
 result = pd.DataFrame(data=results)
 print(result)
 result.to_csv("school.csv", index=False)
