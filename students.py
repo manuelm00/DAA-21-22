@@ -44,14 +44,23 @@ lunch = {'free/reduced': 0, 'standard': 1}
 test_preparation = {'none': 0, 'completed': 1}
 
 df = df.replace({'gender': gender, 'race/ethnicity': race, 'parental level of education': parental_education, 'lunch': lunch, 'test preparation course': test_preparation})
+results={}
+for label in ["math score","reading score","writing score"]:
+    x = df.drop([label],axis=1)
+    y = df[label]
+    x_train, x_test, y_train, y_test = train_test_split(x,y,test_size=0.25,random_state=2021)
+    
+    logmod = LogisticRegression(max_iter=10000) #para numero de escolhas infinitas
+    logmod.fit(x_train,np.ravel(y_train))
 
-print(df)
-
-x = df.drop(['math score'],axis=1)
-y = df['math score']
-
-x_train, x_test, y_train, y_test = train_test_split(x,y,test_size=0.25,random_state=2021)
-
+    predictions = logmod.predict(x_test)
+    print(f"logistic regression x_test error for {label}: {str(mean_absolute_error(y_test,predictions))}")    
+    results[label]=predictions
+    
+results['RowId'] = list(range(1,len(predictions)+1))
+result = pd.DataFrame(data=results)
+print(result)
+result.to_csv("school.csv", index=False)
 
 '''
 lm = LinearRegression() #para numero de escolhas infinitas
@@ -61,13 +70,7 @@ predictions = lm.predict(x_test)
 print(len(predictions))
 print("linear regression x_test error: " + str(mean_absolute_error(y_test,predictions)))'''
 
-logmod = LogisticRegression(max_iter=2000) #para numero de escolhas infinitas
-logmod.fit(x_train,np.ravel(y_train))
 
-predictions = logmod.predict(x_test)
-print("logistic regression x_test error: " + str(mean_absolute_error(y_test,predictions)))
-
-print(predictions)
 
 '''
 corr_matrix = df.corr()
