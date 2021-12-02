@@ -51,8 +51,10 @@ clf = DecisionTreeRegressor(random_state=2) #para numero de escolhas infinitas
 clf.fit(x_train,y_train)
 
 predictions = clf.predict(x_test)
-print(len(predictions))
+#print(len(predictions))
 print("decision tree x_test error: " + str(mean_absolute_error(y_test,predictions)))
+
+print("decision tree precision score: " + str(precision_score(y_test,predictions, average=None)))
 #print(df_final)
 #predictions = clf.predict(df_final.drop(['record_date'],axis=1))
 #print(list(predictions))
@@ -61,14 +63,16 @@ lm = LinearRegression() #para numero de escolhas infinitas
 lm.fit(x_train,y_train)
 
 predictions = lm.predict(x_test)
-print(len(predictions))
+#print(len(predictions))
 print("linear regression x_test error: " + str(mean_absolute_error(y_test,predictions)))
+#print("linear regression precision score: " + str(precision_score(y_test,predictions, average='weighted')))
 
 logmod = LogisticRegression(max_iter=2000) #para numero de escolhas infinitas
 logmod.fit(x_train,np.ravel(y_train))
 
-predictions = logmod.predict(x_test)
-print("logistic regression x_test error: " + str(mean_absolute_error(y_test,predictions)))
+predictions = logmod.predict(df_final.drop(['record_date'],axis=1))
+#print("logistic regression x_test error: " + str(mean_absolute_error(df_final.drop(['record_date'],axis=1),predictions)))
+#print("logistic regression precision score: " + str(precision_score(df_final.drop(['record_date'],axis=1),predictions)))
 
 
 speed_diff = {0.0: 'None', 1.0: 'Low', 2.0: 'Medium', 3.0: 'High', 4.0: 'Very_High'}
@@ -78,7 +82,11 @@ result = result.replace({'Speed_Diff': speed_diff})
 print(result)
 result.to_csv("respes.csv", index=False)
 
+cols = ['AVERAGE_SPEED_DIFF', 'AVERAGE_FREE_FLOW_SPEED', 'AVERAGE_TIME_DIFF', 'AVERAGE_FREE_FLOW_TIME', 'LUMINOSITY', 'AVERAGE_TEMPERATURE', 'AVERAGE_ATMOSP_PRESSURE', 'AVERAGE_HUMIDITY', 'AVERAGE_WIND_SPEED', 'AVERAGE_CLOUDINESS', 'AVERAGE_RAIN']
+_ = sns.pairplot(df[cols], height = 2.5)
 
 corr_matrix = df.corr()
 f, ax = plt.subplots(figsize=(8,6))
 sns.heatmap(corr_matrix,vmin=-1, vmax=1, square=True, annot=True)
+
+

@@ -28,11 +28,11 @@ print(df.drop(['AVERAGE_SPEED_DIFF','LUMINOSITY','AVERAGE_PRECIPITATION','AVERAG
 #print(df.info()) #mostra tipo 4 nulos
 #print(df.describe()) #does medias
 
-#print(sns.histplot(df['AVERAGE_WIND_SPEED'], kde=True))
+print(sns.histplot(df['AVERAGE_WIND_SPEED'], kde=True))
 #print("Skewness : %f" % df['AVERAGE_WIND_SPEED'].skew())
 #print("Kurtosis : %f" % df['AVERAGE_WIND_SPEED'].kurt())
 #ax = sns.boxplot(x=df["AVERAGE_WIND_SPEED"])
-_ = df.plot.scatter(x='AVERAGE_ATMOSP_PRESSURE', y='AVERAGE_HUMIDITY')
+#_ = df.plot.scatter(x='AVERAGE_ATMOSP_PRESSURE', y='AVERAGE_HUMIDITY')
 
 #O que é df_prepared???
 #df_prepared['AVERAGE_WIND_SPEED'].fillna(method ='bfill')
